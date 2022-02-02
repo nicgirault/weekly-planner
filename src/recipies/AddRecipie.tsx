@@ -7,11 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import { useNavigate } from "react-router-dom";
 
 export const NewRecipie = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Recipie>();
+  const { register, handleSubmit } = useForm<Recipie>();
   const { add } = useRecipies();
   const navigate = useNavigate();
 

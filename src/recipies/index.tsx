@@ -42,7 +42,12 @@ export default function Recipies() {
         </List>
       </nav>
       <Outlet />
-      <Fab color="primary" aria-label="add" href="/recipies/new">
+      <Fab
+        color="primary"
+        aria-label="add"
+        href="/recipies/new"
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
+      >
         <AddIcon />
       </Fab>
     </Box>

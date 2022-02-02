@@ -17,3 +17,11 @@ const App = () => {
 };
 
 export default App;
+
+// 1. ajouter un bouton pour accéder aux recettes
+// 2. reset
+// 3. proposer de remplir automatiquement par jour ou semaine entière
+// 4. BDD
+// 5. liste de courses
+// 6. premier repas de la semaine
+// 7. entrée/plat/dessert plat => féculent/légume/viande

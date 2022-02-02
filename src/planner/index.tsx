@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
+import { Menu } from "../Menu";
 import { usePlanner } from "./usePlanner";
 
 export const Planner = () => {
@@ -47,6 +48,7 @@ export const Planner = () => {
           ))}
         </List>
       </nav>
+      <Menu />
     </Box>
   );
 };
