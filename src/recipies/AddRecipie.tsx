@@ -12,7 +12,7 @@ export const NewRecipie = () => {
   const navigate = useNavigate();
 
   return (
-    <Dialog onClose={() => navigate("..")} open={true}>
+    <Dialog onClose={() => navigate("..", { replace: true })} open={true}>
       <DialogTitle>Ajouter une recette</DialogTitle>
       <form
         onSubmit={handleSubmit((recipie) => {
@@ -31,7 +31,9 @@ export const NewRecipie = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => navigate("..")}>Annuler</Button>
+          <Button onClick={() => navigate("..", { replace: true })}>
+            Annuler
+          </Button>
           <Button type="submit">Ajouter</Button>
         </DialogActions>
       </form>

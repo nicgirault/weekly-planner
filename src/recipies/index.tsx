@@ -8,11 +8,12 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import { useRecipies } from "./useRecipies";
 import { Fab, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Recipies() {
   const { recipies, remove } = useRecipies();
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -45,7 +46,7 @@ export default function Recipies() {
       <Fab
         color="primary"
         aria-label="add"
-        href="/recipies/new"
+        onClick={() => navigate("new", { replace: true })}
         sx={{ position: "fixed", bottom: 16, right: 16 }}
       >
         <AddIcon />
