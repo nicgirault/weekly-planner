@@ -1,45 +1,42 @@
 import useLocaleStorage from "@rehooks/local-storage";
 import { useCallback } from "react";
-import { Recipie, useRecipies } from "../recipies/useRecipies";
+import { Recipie } from "../recipies/useRecipies";
+import { add, eachDayOfInterval, format } from "date-fns";
+
+export type DailyMeal = "lunch" | "dinner";
 
 export const usePlanner = () => {
-  const [planning, setPlanning] = useLocaleStorage<Recipie[]>(
-    "WP/planning",
-    []
-  );
-  const { recipies } = useRecipies();
+  const [plannedMeals, setPlannedMeals] = useLocaleStorage<
+    Record<string, { lunch: Recipie[]; dinner: Recipie[] }>
+  >("WP/planning", {});
+
+  const days = eachDayOfInterval({
+    start: new Date(),
+    end: add(new Date(), { days: 20 }),
+  });
 
   const plan = useCallback(
-    (mealIndex: number, recipie: Recipie) => {
-      setPlanning(
-        meals.map((_, _mealIndex) =>
-          mealIndex === _mealIndex ? recipie : planning[_mealIndex]
-        )
-      );
+    (date: Date, meal: DailyMeal, recipies: Recipie[]) => {
+      const dateIdentifier = format(date, "yyyy-MM-dd");
+      setPlannedMeals({
+        ...plannedMeals,
+        [dateIdentifier]: { ...plannedMeals[dateIdentifier], [meal]: recipies },
+      });
     },
-    [setPlanning, planning]
+    [setPlannedMeals, plannedMeals]
+  );
+
+  const getPlannedRecipies = useCallback(
+    (date: Date, meal: DailyMeal) => {
+      const data = plannedMeals[format(date, "yyyy-MM-dd")];
+      return data ? data[meal] || [] : [];
+    },
+    [plannedMeals]
   );
 
   return {
-    planning: meals.map((meal, index) => ({ meal, recipie: planning[index] })),
-    recipies,
+    getPlannedRecipies,
+    days,
     plan,
   };
 };
-
-const meals = [
-  "Lundi midi",
-  "Lundi soir",
-  "Mardi midi",
-  "Mardi soir",
-  "Mercredi midi",
-  "Mercredi soir",
-  "Jeudi midi",
-  "Jeudi soir",
-  "Vendredi midi",
-  "Vendredi soir",
-  "Samedi midi",
-  "Samedi soir",
-  "Dimanche midi",
-  "Dimanche soir",
-];

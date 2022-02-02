@@ -1,50 +1,27 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  List,
-  ListItem,
-  ListItemText,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Box, List } from "@mui/material";
 import { Menu } from "../Menu";
+import { MealPlanner } from "./MealPlanner";
 import { usePlanner } from "./usePlanner";
 
 export const Planner = () => {
-  const { recipies, plan, planning } = usePlanner();
+  const { plan, days, getPlannedRecipies } = usePlanner();
 
   return (
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
       <nav aria-label="recipies">
         <List>
-          {planning.map(({ recipie, meal }, mealIndex) => (
-            <ListItem key={meal}>
-              <ListItemText primary={meal} />
-              <FormControl>
-                <InputLabel id={`${meal} recipie label`}>Plat</InputLabel>
-                <Select
-                  labelId={`${meal} recipie label`}
-                  id={`${meal} recipie`}
-                  value={recipie?.name}
-                  label="Age"
-                  onChange={(event) =>
-                    plan(
-                      mealIndex,
-                      recipies.find(
-                        (recipie) => recipie.name === event.target.value
-                      )!
-                    )
-                  }
-                >
-                  {recipies.map((recipie) => (
-                    <MenuItem key={recipie.name} value={recipie.name}>
-                      {recipie.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </ListItem>
+          {days.map((day) => (
+            <>
+              {(["lunch", "dinner"] as const).map((meal) => (
+                <MealPlanner
+                  key={`${day}-${meal}`}
+                  meal={meal}
+                  date={day}
+                  plannedRecipies={getPlannedRecipies(day, meal)}
+                  plan={(recipies) => plan(day, meal, recipies)}
+                />
+              ))}
+            </>
           ))}
         </List>
       </nav>
